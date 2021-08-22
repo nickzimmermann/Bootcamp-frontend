@@ -52,7 +52,6 @@ const RegistrationForm = () => {
         else {
             setState("loading");
             setErrorsState([]);
-            // 2.1  If the submission is successful, set state to 'successfull
             
             formData.append('firstName', firstNameField.value);
             formData.append('lastName', lastNameField.value);
@@ -67,13 +66,29 @@ const RegistrationForm = () => {
                     body: formData
                 }
             )
-            .then()
-            .then()
-            .catch()
-
+            // The .json() method will convert a 'stringified' object to a JavaScript object
+            .then(
+                (backendResponseJson) => backendResponseJson.json()
+            )
+            // 2.1  If the submission is successful, set state to 'successfull
+            .then(
+                (backendResponse) => {
+                    console.log(backendResponse);
+                    if (backendResponse.status === "successful") {
+                        setState("successful");
+                    } else {
+                        setState("unsuccessful")
+                    }   
+                }
+            )
             // 2.2  If the submission is unsuccessful, set state to 'unsuccessful'
+            .catch(
+                (err) => {
+                    console.log(err);
+                    setState("unsuccessful");
+                }
+            )
         }
-            
     }
 
     return (
@@ -138,6 +153,10 @@ const RegistrationForm = () => {
             {
                 state === "successful" &&
                 <div className="alert alert-success">You have successfully created an account</div>
+            }
+            {
+                state === "unsuccessful" &&
+                <div className="alert alert-danger">An error occured. Please try again.</div>
             }
             {
                 state === "loading" &&
