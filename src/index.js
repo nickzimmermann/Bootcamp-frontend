@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-// import RegistrationForm from './RegistrationForm';
+import { UserContextProvider } from './UserContext';
 import reportWebVitals from './reportWebVitals';
 
-// The app put in line 11 will be rendered to the browser
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <UserContextProvider>
+      <App />
+    </UserContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
